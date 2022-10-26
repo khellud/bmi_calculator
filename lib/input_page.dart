@@ -3,6 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'icon_content.dart';
 import 'reusable_card.dart';
 import 'constant.dart';
+import 'result_page.dart';
 
 enum Gender {
   male,
@@ -19,6 +20,8 @@ class InputPage extends StatefulWidget {
 class _InputPageState extends State<InputPage> {
   Gender? selectedGender;
   int height = 180;
+  int weight = 40;
+  int age = 8;
 
   @override
   Widget build(BuildContext context) {
@@ -123,28 +126,140 @@ class _InputPageState extends State<InputPage> {
           ),
           Expanded(
             child: Row(
-              children: const [
+              children: [
                 Expanded(
                   child: ReusableCard(
                     colour: kActiveCardColor,
+                    cardChild: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Text(
+                          'WEIGHT',
+                          style: kLabelTextStyle,
+                        ),
+                        Text(
+                          weight.toString(),
+                          style: kNumberStyle,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            RoundIconButton(
+                              icon: FontAwesomeIcons.minus,
+                              onPressed: () {
+                                if (weight > 0) {
+                                  setState(() {
+                                    weight--;
+                                  });
+                                }
+                              },
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            RoundIconButton(
+                              icon: FontAwesomeIcons.plus,
+                              onPressed: () {
+                                setState(() {
+                                  weight++;
+                                });
+                              },
+                            )
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 Expanded(
                   child: ReusableCard(
                     colour: kActiveCardColor,
+                    cardChild: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Text(
+                          'AGE',
+                          style: kLabelTextStyle,
+                        ),
+                        Text(
+                          age.toString(),
+                          style: kNumberStyle,
+                        ),
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              RoundIconButton(
+                                icon: FontAwesomeIcons.minus,
+                                onPressed: () {
+                                  if (age > 0) {
+                                    setState(() {
+                                      age--;
+                                    });
+                                  }
+                                },
+                              ),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              RoundIconButton(
+                                icon: FontAwesomeIcons.plus,
+                                onPressed: () {
+                                  setState(() {
+                                    age++;
+                                  });
+                                },
+                              ),
+                            ]),
+                      ],
+                    ),
                   ),
                 ),
               ],
             ),
           ),
-          Container(
-            color: kBottomContainerColor,
-            margin: const EdgeInsets.only(top: 10),
-            width: double.infinity,
-            height: kBottomContainerHeight,
-          )
+          GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const ResultPage(),
+                ),
+              );
+            },
+            child: Container(
+              color: kBottomContainerColor,
+              margin: const EdgeInsets.only(top: 10),
+              width: double.infinity,
+              height: kBottomContainerHeight,
+              child: const Center(
+                child: Text('CALCULATE'),
+              ),
+            ),
+          ),
         ],
       ),
+    );
+  }
+}
+
+class RoundIconButton extends StatelessWidget {
+  const RoundIconButton(
+      {super.key, required this.icon, required this.onPressed});
+
+  final IconData? icon;
+  final Function()? onPressed;
+  @override
+  Widget build(BuildContext context) {
+    return RawMaterialButton(
+      elevation: 0,
+      constraints: const BoxConstraints.tightFor(
+        width: 56,
+        height: 56,
+      ),
+      shape: const CircleBorder(),
+      fillColor: const Color(0xFF4C4F5E),
+      onPressed: onPressed,
+      child: Icon(icon),
     );
   }
 }
